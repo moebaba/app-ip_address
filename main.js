@@ -12,14 +12,16 @@ const IPCIDR = require('ip-cidr');
  *                 in CIDR format.
  * @param {callback} callback - A callback function.
  * @return {string} (firstIpAddress) - An IPv4 address.
+ * @param {string} Ipv6Address - IPv6 address returned by function Ipv6Address.
+ * @param {string} IpAddresses - Concatinated IPv4 and IPv6 Addresses returned by function getFirstIpAddress.
  */
 function getFirstIpAddress(cidrStr, callback) {
 
   // Initialize return arguments for callback
   let firstIpAddress = null;
   let Ipv6Address = null;
-  let callbackError = null;
   let IpAddresses = null;
+  let callbackError = null;
 
 
   // Instantiate an object from the imported class and assign the instance to variable cidr.
