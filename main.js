@@ -43,7 +43,7 @@ function getFirstIpAddress(cidrStr, callback) {
     Ipv6Address = getIpv4MappedIpv6Address(firstIpAddress)
 
   }
-  IpAddresses = "{ipv4:" + firstIpAddress + ", " + "ipv6:" + Ipv6Address + "}"
+  IpAddresses = '{"ipv4":"' + firstIpAddress + '", ' + '"ipv6":"' + Ipv6Address + '"}'
   // Call the passed callback function.
   // Node.js convention is to pass error data as the first argument to a callback.
   // The IAP convention is to pass returned data as the first argument and error
