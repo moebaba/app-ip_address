@@ -11,9 +11,9 @@ const IPCIDR = require('ip-cidr');
  * @param {string} cidrStr - The IPv4 subnet expressed
  *                 in CIDR format.
  * @param {callback} callback - A callback function.
- * @param {string} firstIpAddress - An IPv4 address.
- * @param {string} Ipv6Address - IPv6 address returned by helper function getIpv4MappedIpv6Address(firstIpAddress).
- * @return {string} (IpAddresses) - Concatinated IPv4 and IPv6 Addresses returned by function getFirstIpAddress.
+ * @return {string} (firstIpAddress) - An IPv4 address.
+ * @param {string} Ipv6Address - IPv6 address returned by function Ipv6Address.
+ * @param {string} IpAddresses - Concatinated IPv4 and IPv6 Addresses returned by function getFirstIpAddress.
  */
 function getFirstIpAddress(cidrStr, callback) {
 
