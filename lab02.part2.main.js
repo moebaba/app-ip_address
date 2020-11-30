@@ -11,18 +11,17 @@ const IPCIDR = require('ip-cidr');
  * @param {string} cidrStr - The IPv4 subnet expressed
  *                 in CIDR format.
  * @param {callback} callback - A callback function.
- * @return {string} (firstIpAddress) - An IPv4 address.
- * @param {string} Ipv6Address - IPv6 address returned by function Ipv6Address.
- * @param {string} IpAddresses - Concatinated IPv4 and IPv6 Addresses returned by function getFirstIpAddress.
+ * @param {string} firstIpAddress - An IPv4 address.
+ * @param {string} Ipv6Address - IPv6 address returned by helper function getIpv4MappedIpv6Address(firstIpAddress).
+ * @return {string} (IpAddresses) - Concatinated IPv4 and IPv6 Addresses returned by function getFirstIpAddress.
  */
 function getFirstIpAddress(cidrStr, callback) {
 
   // Initialize return arguments for callback
   let firstIpAddress = null;
-  let Ipv6Address = null;
+  let Ipv6Address = null; 
   let IpAddresses = null;
   let callbackError = null;
-
 
   // Instantiate an object from the imported class and assign the instance to variable cidr.
   const cidr = new IPCIDR(cidrStr);
@@ -43,7 +42,6 @@ function getFirstIpAddress(cidrStr, callback) {
     // Notice the destructering assignment syntax to get the value of the first array's element.
     [firstIpAddress] = cidr.toArray(options);
     Ipv6Address = getIpv4MappedIpv6Address(firstIpAddress)
-
   }
   IpAddresses = '{"ipv4":"' + firstIpAddress + '", ' + '"ipv6":"' + Ipv6Address + '"}'
   // Call the passed callback function.
@@ -51,55 +49,8 @@ function getFirstIpAddress(cidrStr, callback) {
   // The IAP convention is to pass returned data as the first argument and error
   // data as the second argument to the callback function.
 
- 
-  
   return callback(IpAddresses, callbackError);
 }
-
-
-/*
-  This section is used to test function and log any errors.
-  We will make several positive and negative tests.
-*/
-function main() {
-  // Create some test data for getFirstIpAddress(), both valid and invalid.
-  let sampleCidrs = ['172.16.10.0/24', '172.16.10.0 255.255.255.0', '172.16.10.128/25', '192.168.1.216/30'];
-  let sampleCidrsLen = sampleCidrs.length;
-  // Create some test data for getIpv4MappedIpv6Address, both valid and invalid.
-  let sampleIpv4s = [ '172.16.10.1', '172.16.10.0/24', '172.16.10.0 255.255.255.0', '172.16.256.1', '1.1.1.-1'];
-  let sampleIpv4sLen = sampleIpv4s.length;
-
-  // Iterate over sampleCidrs and pass the element's value to getFirstIpAddress().
-  for (let i = 0; i < sampleCidrsLen; i++) {
-    console.log(`\n--- Test Number ${i + 1} getFirstIpAddress(${sampleCidrs[i]}) ---`);
-    // Call getFirstIpAddress and pass the test subnet and an anonymous callback function.
-    // The callback is using the fat arrow operator: () => { }
-    getFirstIpAddress(sampleCidrs[i], (data, error) => {
-      // Now we are inside the callback function.
-      // Display the results on the console.
-      if (error) {
-        console.error(`  Error returned from GET request: ${error}`);
-      }
-      console.log(`  Response returned from GET request: ${data}`);
-    });
-  }
-  // Iterate over sampleIpv4s and pass the element's value to getIpv4MappedIpv6Address().
-  for (let i = 0; i < sampleIpv4sLen; i++) {
-    console.log(`\n--- Test Number ${i + 1} getIpv4MappedIpv6Address(${sampleIpv4s[i]}) ---`);
-    // Assign the function results to a variable so we can check if a string or null was returned.
-    let mappedAddress = getIpv4MappedIpv6Address(sampleIpv4s[i]);
-    if( mappedAddress ) {
-      console.log(`  IPv4 ${sampleIpv4s[i]} mapped to IPv6 Address: ${mappedAddress}`);
-    } else {
-      console.error(`  Problem converting IPv4 ${sampleIpv4s[i]} into a mapped IPv6 address.`);
-    }
-  }
-}
-
-/*
-  Call main to run it.
-*/
-main();
 
 /**
  * Calculates an IPv4-mapped IPv6 address.
@@ -149,3 +100,47 @@ function getIpv4MappedIpv6Address(ipv4) {
   }
   return ipv6Address;
 }
+
+/*
+  This section is used to test function and log any errors.
+  We will make several positive and negative tests.
+*/
+function main() {
+  // Create some test data for getFirstIpAddress(), both valid and invalid.
+  let sampleCidrs = ['172.16.10.0/24', '172.16.10.0 255.255.255.0', '172.16.10.128/25', '192.168.1.216/30'];
+  let sampleCidrsLen = sampleCidrs.length;
+  // Create some test data for getIpv4MappedIpv6Address, both valid and invalid.
+  let sampleIpv4s = [ '172.16.10.1', '172.16.10.0/24', '172.16.10.0 255.255.255.0', '172.16.256.1', '1.1.1.-1'];
+  let sampleIpv4sLen = sampleIpv4s.length;
+
+  // Iterate over sampleCidrs and pass the element's value to getFirstIpAddress().
+  for (let i = 0; i < sampleCidrsLen; i++) {
+    console.log(`\n--- Test Number ${i + 1} getFirstIpAddress(${sampleCidrs[i]}) ---`);
+    // Call getFirstIpAddress and pass the test subnet and an anonymous callback function.
+    // The callback is using the fat arrow operator: () => { }
+    getFirstIpAddress(sampleCidrs[i], (data, error) => {
+      // Now we are inside the callback function.
+      // Display the results on the console.
+      if (error) {
+        console.error(`  Error returned from GET request: ${error}`);
+      }
+      console.log(`  Response returned from GET request: ${data}`);
+    });
+  }
+  // Iterate over sampleIpv4s and pass the element's value to getIpv4MappedIpv6Address().
+  for (let i = 0; i < sampleIpv4sLen; i++) {
+    console.log(`\n--- Test Number ${i + 1} getIpv4MappedIpv6Address(${sampleIpv4s[i]}) ---`);
+    // Assign the function results to a variable so we can check if a string or null was returned.
+    let mappedAddress = getIpv4MappedIpv6Address(sampleIpv4s[i]);
+    if( mappedAddress ) {
+      console.log(`  IPv4 ${sampleIpv4s[i]} mapped to IPv6 Address: ${mappedAddress}`);
+    } else {
+      console.error(`  Problem converting IPv4 ${sampleIpv4s[i]} into a mapped IPv6 address.`);
+    }
+  }
+}
+
+/*
+  Call main to run it.
+*/
+main();
