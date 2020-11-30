@@ -44,7 +44,7 @@ class IpAddress {
  * @return {string} (IpAddresses) - Concatinated IPv4 and IPv6 Addresses returned by function getFirstIpAddress.
  */
  
- getFirstIpAddress(cidrStr, callback) {
+ getFirstIpAddress(cidrStr, callback) 
 
   // Initialize return arguments for callback
   let firstIpAddress = null;
@@ -79,7 +79,7 @@ class IpAddress {
   // data as the second argument to the callback function.
 
   return callback(IpAddresses, callbackError);
-    }
+    
   }
 }
 
