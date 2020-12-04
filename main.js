@@ -24,7 +24,6 @@ const path = require('path');
 const { getIpv4MappedIpv6Address } = require(path.join(__dirname, 'ipv6.js'));
 
 
-
 class IpAddress {
   constructor() {
     // IAP's global log object is used to output errors, warnings, and other
@@ -34,16 +33,15 @@ class IpAddress {
     // under Documentation -> Developer Guides -> Log Class Guide
     log.info('Starting the IpAddress product.');
   }
-
     /**
-        * Calculate and return the first host IP address from a CIDR subnet.
-        * @param {string} cidrStr - The IPv4 subnet expressed
-        *                 in CIDR format.
-        * @param {callback} callback - A callback function.
-        * @param {string} firstIpAddress - An IPv4 address.
-        * @param {string} Ipv6Address - IPv6 address returned by helper function getIpv4MappedIpv6Address(firstIpAddress).
-        * @return {string} (IpAddresses) - Concatinated IPv4 and IPv6 Addresses returned by function getFirstIpAddress.
-        */
+    * Calculate and return the first host IP address from a CIDR subnet.
+    * @param {string} cidrStr - The IPv4 subnet expressed
+    *                 in CIDR format.
+    * @param {callback} callback - A callback function.
+    * @param {string} firstIpAddress - An IPv4 address.
+    * @param {string} Ipv6Address - IPv6 address returned by helper function getIpv4MappedIpv6Address(firstIpAddress).
+    * @return {string} (IpAddresses) - Concatinated IPv4 and IPv6 Addresses returned by function getFirstIpAddress.
+    */
     getFirstIpAddress(cidrStr, callback) {
 
     // Initialize return arguments for callback
@@ -81,5 +79,4 @@ class IpAddress {
     return callback(IpAddresses, callbackError);
     }
 }
-
 module.exports = new IpAddress;
