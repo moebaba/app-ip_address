@@ -39,8 +39,6 @@ class IpAddress {
     *                 in CIDR format.
     * @param {callback} callback - A callback function.
     * @return {object} (firstIpAddress) - An object containing properties ipv4 and ipv6.
-    * @param {string} Ipv6Address - IPv6 address returned by helper function getIpv4MappedIpv6Address(firstIpAddress).
-    * @return {string} (IpAddresses) - Concatinated IPv4 and IPv6 Addresses returned by function getFirstIpAddress.
     */
     getFirstIpAddress(cidrStr, callback) {
 
@@ -77,7 +75,7 @@ class IpAddress {
     // The IAP convention is to pass returned data as the first argument and error
     // data as the second argument to the callback function.
 
-    return callback(IpAddresses, callbackError);
+    return callback(firstIpAddress, callbackError);
     }
 }
 module.exports = new IpAddress;
